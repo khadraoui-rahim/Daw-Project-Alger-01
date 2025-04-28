@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './styles/App.css'
 import SplashScreen from './components/splash/SplashScreen'
 import OnboardingScreen from './components/onboarding/OnboardingScreen'
+import { GlobalProvider } from './context/GlobalContext'
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -23,13 +24,12 @@ function App() {
     if (currentOnboardingPage < TOTAL_ONBOARDING_SCREENS - 1) {
       setCurrentOnboardingPage(prev => prev + 1);
     } else {
-      // We've reached the end of onboarding
       setOnboardingComplete(true);
     }
   };
 
   return (
-    <>
+    <GlobalProvider>
       {showSplash ? (
         <SplashScreen onSplashComplete={handleSplashComplete} />
       ) : !onboardingComplete ? (
@@ -39,13 +39,15 @@ function App() {
           currentPage={currentOnboardingPage}
         />
       ) : (
-        <div className="placeholder-main-app">
-          <h1>Main App Coming Soon!</h1>
-          <p>You have completed the onboarding process.</p>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">Welcome!</h1>
+            <p className="text-xl text-gray-600">You have completed the onboarding process.</p>
+          </div>
         </div>
       )}
-    </>
-  )
+    </GlobalProvider>
+  );
 }
 
 export default App
