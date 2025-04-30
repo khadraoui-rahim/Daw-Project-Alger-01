@@ -6,26 +6,35 @@ const GlobalContext = createContext();
 
 // Provider Component
 export const GlobalProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(globalReducer, initialState);
-
-    // Load state from localStorage on initial render
-    useEffect(() => {
+    // Initialize with either the saved state from localStorage or the default initialState
+    const getInitialState = () => {
         const savedState = localStorage.getItem('socialMediaState');
         if (savedState) {
-            const parsedState = JSON.parse(savedState);
-            if (parsedState.currentUser) {
-                dispatch({ type: 'LOGIN', payload: parsedState.currentUser });
+            try {
+                return JSON.parse(savedState);
+            } catch (e) {
+                console.error('Error parsing saved state:', e);
+                return initialState;
             }
         }
-    }, []);
+        return initialState;
+    };
+
+    const [state, dispatch] = useReducer(globalReducer, getInitialState());
 
     // Save state to localStorage whenever it changes
     useEffect(() => {
         localStorage.setItem('socialMediaState', JSON.stringify(state));
     }, [state]);
 
+    // Function to reset state to initial values (useful for debugging or logout)
+    const resetState = () => {
+        localStorage.removeItem('socialMediaState');
+        window.location.reload();
+    };
+
     return (
-        <GlobalContext.Provider value={{ state, dispatch }}>
+        <GlobalContext.Provider value={{ state, dispatch, resetState }}>
             {children}
         </GlobalContext.Provider>
     );

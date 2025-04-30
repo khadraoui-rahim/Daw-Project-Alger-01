@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { ACTIONS } from '../../reducers/globalReducer';
 import rabbitLogo from '../../assets/images/rabbit.png';
+import PostList from '../post/PostList';
 
 const HomeScreen = () => {
     const { state, dispatch } = useGlobalContext();
@@ -10,6 +11,7 @@ const HomeScreen = () => {
 
     const handleLogout = () => {
         dispatch({ type: ACTIONS.LOGOUT });
+        setMenuOpen(false);
     };
 
     const toggleMenu = () => {
@@ -86,14 +88,9 @@ const HomeScreen = () => {
                 </div>
             </header>
 
-            {/* Empty content area for future development */}
-            <main className="container mx-auto p-4">
-                <div className="bg-white rounded-lg p-8 text-center">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Welcome, {state.currentUser.username}!</h2>
-                    <p className="text-gray-600">
-                        This is a blank slate for you to build upon.
-                    </p>
-                </div>
+            {/* Main content - Posts */}
+            <main className="max-w-screen-sm mx-auto p-4">
+                <PostList />
             </main>
         </div>
     );

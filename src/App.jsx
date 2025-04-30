@@ -6,6 +6,7 @@ import LoginScreen from './components/login/LoginScreen'
 import HomeScreen from './components/home/HomeScreen'
 import { GlobalProvider } from './context/GlobalContext'
 import { useGlobalContext } from './context/GlobalContext'
+import PersistenceStatus from './components/common/PersistenceStatus'
 
 // Wrap content in a container to use the context
 const AppContent = () => {
@@ -57,7 +58,12 @@ const AppContent = () => {
 
   // If user is logged in, show home screen
   if (state.currentUser) {
-    return <HomeScreen />;
+    return (
+      <>
+        <HomeScreen />
+        <PersistenceStatus />
+      </>
+    );
   }
 
   // Otherwise show onboarding flow
@@ -87,6 +93,7 @@ const AppContent = () => {
           </div>
         </div>
       )}
+      <PersistenceStatus />
     </>
   );
 };
