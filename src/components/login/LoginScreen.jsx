@@ -106,6 +106,12 @@ const LoginScreen = ({ onBack, onLoginSuccess }) => {
                     </button>
                 </form>
 
+                <div className="mt-6 text-center">
+                    <p className="text-gray-600">
+                        Don't have an account? <span className="text-orange-500 font-medium" onClick={() => onBack('signup')}>Sign up</span>
+                    </p>
+                </div>
+
                 <div className="mt-16 text-center text-gray-700">
                     <p>As this is a Demo app here are the available users:</p>
                     <p>UserName:</p>

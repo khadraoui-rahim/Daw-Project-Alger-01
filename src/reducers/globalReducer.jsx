@@ -9,6 +9,9 @@ export const ACTIONS = {
     LIKE_POST: 'LIKE_POST',
     UNLIKE_POST: 'UNLIKE_POST',
     ADD_COMMENT: 'ADD_COMMENT',
+    REGISTER_USER: 'REGISTER_USER',
+    DELETE_USER: 'DELETE_USER',
+    DELETE_COMMENT: 'DELETE_COMMENT',
 };
 
 // Initial State
@@ -103,6 +106,66 @@ export const globalReducer = (state, action) => {
                         }
                         : post
                 ),
+            };
+
+        case ACTIONS.REGISTER_USER:
+            // Generate a new user ID (max ID + 1)
+            const newUserId = Math.max(...state.users.map(user => user.id)) + 1;
+            const newUser = {
+                ...action.payload,
+                id: newUserId,
+            };
+
+            return {
+                ...state,
+                users: [...state.users, newUser],
+                currentUser: newUser, // Auto login after registration
+            };
+
+        case ACTIONS.DELETE_USER:
+            const userIdToDelete = action.payload;
+
+            // Filter out the user
+            const updatedUsers = state.users.filter(user => user.id !== userIdToDelete);
+
+            // Filter out posts made by the user
+            const postsWithoutUser = state.posts.filter(post => post.userId !== userIdToDelete);
+
+            // Remove comments made by the user from remaining posts
+            const postsWithoutUserComments = postsWithoutUser.map(post => ({
+                ...post,
+                comments: post.comments.filter(comment => comment.userId !== userIdToDelete),
+                // Also remove the user from likedBy arrays
+                likedBy: post.likedBy ? post.likedBy.filter(id => id !== userIdToDelete) : [],
+                // Update like count to match the new likedBy array
+                likes: post.likedBy ? post.likedBy.filter(id => id !== userIdToDelete).length : 0
+            }));
+
+            // Check if the deleted user is the current user
+            const newCurrentUser = state.currentUser && state.currentUser.id === userIdToDelete
+                ? null
+                : state.currentUser;
+
+            return {
+                ...state,
+                users: updatedUsers,
+                posts: postsWithoutUserComments,
+                currentUser: newCurrentUser
+            };
+
+        case ACTIONS.DELETE_COMMENT:
+            const { postId, commentId } = action.payload;
+
+            return {
+                ...state,
+                posts: state.posts.map(post =>
+                    post.id === postId
+                        ? {
+                            ...post,
+                            comments: post.comments.filter(comment => comment.id !== commentId)
+                        }
+                        : post
+                )
             };
 
         default:

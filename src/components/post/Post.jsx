@@ -121,6 +121,7 @@ const Post = ({ post }) => {
                         users={state.users}
                         showAllComments={showAllComments}
                         toggleComments={toggleComments}
+                        postId={post.id}
                     />
                 )}
             </div>

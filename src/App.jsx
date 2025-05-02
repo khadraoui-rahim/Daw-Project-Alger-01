@@ -3,7 +3,10 @@ import './styles/App.css'
 import SplashScreen from './components/splash/SplashScreen'
 import OnboardingScreen from './components/onboarding/OnboardingScreen'
 import LoginScreen from './components/login/LoginScreen'
+import SignupScreen from './components/login/SignupScreen'
 import HomeScreen from './components/home/HomeScreen'
+import UserProfile from './components/profile/UserProfile'
+import AddPostForm from './components/post/AddPostForm'
 import { GlobalProvider } from './context/GlobalContext'
 import { useGlobalContext } from './context/GlobalContext'
 import PersistenceStatus from './components/common/PersistenceStatus'
@@ -29,6 +32,7 @@ const AppContent = () => {
   const [currentOnboardingPage, setCurrentOnboardingPage] = useState(0);
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -71,12 +75,28 @@ const AppContent = () => {
     }
   };
 
-  const handleLoginBack = () => {
-    setShowLogin(false);
+  const handleLoginBack = (screen) => {
+    if (screen === 'signup') {
+      setShowLogin(false);
+      setShowSignup(true);
+    } else {
+      setShowLogin(false);
+      setShowSignup(false);
+    }
+  };
+
+  const handleSignupBack = () => {
+    setShowSignup(false);
+    setShowLogin(true);
   };
 
   const handleLoginSuccess = () => {
     // Navigate to home route after successful login
+    navigate('/home');
+  };
+
+  const handleSignupSuccess = () => {
+    // Navigate to home route after successful signup
     navigate('/home');
   };
 
@@ -92,6 +112,8 @@ const AppContent = () => {
           currentPage={currentOnboardingPage}
         />
       );
+    } else if (showSignup) {
+      return <SignupScreen onBack={handleSignupBack} onSignupSuccess={handleSignupSuccess} />;
     } else if (showLogin) {
       return <LoginScreen onBack={handleLoginBack} onLoginSuccess={handleLoginSuccess} />;
     } else {
@@ -100,12 +122,20 @@ const AppContent = () => {
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-800 mb-4">Welcome!</h1>
             <p className="text-xl text-gray-600">You have completed the onboarding process.</p>
-            <button
-              onClick={() => setShowLogin(true)}
-              className="mt-6 px-6 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-colors"
-            >
-              Go to Login
-            </button>
+            <div className="flex flex-col space-y-4 mt-6">
+              <button
+                onClick={() => setShowLogin(true)}
+                className="px-6 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-colors"
+              >
+                Go to Login
+              </button>
+              <button
+                onClick={() => setShowSignup(true)}
+                className="px-6 py-3 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition-colors"
+              >
+                Create Account
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -121,6 +151,24 @@ const AppContent = () => {
           element={
             <ProtectedRoute>
               <HomeScreen />
+              <PersistenceStatus />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
+              <PersistenceStatus />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/new-post"
+          element={
+            <ProtectedRoute>
+              <AddPostForm onBack={() => navigate('/home')} />
               <PersistenceStatus />
             </ProtectedRoute>
           }

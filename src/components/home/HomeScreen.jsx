@@ -179,12 +179,31 @@ const HomeScreen = () => {
                                         className="block px-6 py-3 text-gray-800 hover:bg-orange-500 hover:text-white border-b border-gray-100"
                                         onClick={(e) => {
                                             e.preventDefault();
+                                            navigate('/new-post');
+                                            setMenuOpen(false);
+                                        }}
+                                    >
+                                        Create Post
+                                    </a>
+                                    <a
+                                        href="#"
+                                        className="block px-6 py-3 text-gray-800 hover:bg-orange-500 hover:text-white border-b border-gray-100"
+                                        onClick={(e) => {
+                                            e.preventDefault();
                                             handleRefreshPosts();
                                         }}
                                     >
                                         Refresh Posts
                                     </a>
-                                    <a href="#" className="block px-6 py-3 text-gray-800 hover:bg-orange-500 hover:text-white border-b border-gray-100">
+                                    <a
+                                        href="#"
+                                        className="block px-6 py-3 text-gray-800 hover:bg-orange-500 hover:text-white border-b border-gray-100"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate('/profile');
+                                            setMenuOpen(false);
+                                        }}
+                                    >
                                         My Account
                                     </a>
                                     <a
@@ -218,6 +237,19 @@ const HomeScreen = () => {
             <main className="max-w-screen-sm mx-auto p-4 flex-grow bg-white">
                 <PostList />
             </main>
+
+            {/* Floating Action Button for creating a new post */}
+            <div className="fixed right-6 bottom-6">
+                <button
+                    onClick={() => navigate('/new-post')}
+                    className="bg-orange-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-orange-600 transition-colors"
+                    aria-label="Create new post"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                </button>
+            </div>
         </div>
     );
 };

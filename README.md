@@ -1,12 +1,57 @@
-# React + Vite
+# Social Media App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern social media application built with React, Vite, and TailwindCSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- User authentication (login/signup)
+- Create and view posts
+- Like and comment on posts
+- User profiles
+- Delete user accounts
+- Responsive design
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 19
+- Vite
+- TailwindCSS
+- React Router
+
+## Development
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Start development server: `npm run dev`
+
+## Deployment
+
+### Deploy to Vercel
+
+This project is configured for easy deployment to Vercel:
+
+1. Push your code to a GitHub repository
+2. Connect your GitHub repository to Vercel
+3. Vercel will automatically detect the Vite configuration
+4. The app will be built and deployed
+
+Or use the Vercel CLI:
+
+```bash
+npm install -g vercel
+vercel login
+vercel
+```
+
+## Project Structure
+
+- `/src` - Application source code
+  - `/components` - React components
+  - `/context` - Global context and state management
+  - `/data` - Mock data for the application
+  - `/reducers` - Global reducers
+  - `/assets` - Static assets like images
+
+## License
+
+MIT

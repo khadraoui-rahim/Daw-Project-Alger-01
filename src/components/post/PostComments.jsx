@@ -1,7 +1,7 @@
 import React from 'react';
 import PostComment from './PostComment';
 
-const PostComments = ({ comments, users, showAllComments, toggleComments }) => {
+const PostComments = ({ comments, users, showAllComments, toggleComments, postId }) => {
     // Make sure comments is an array
     if (!comments || !Array.isArray(comments) || comments.length === 0) {
         return null;
@@ -25,6 +25,7 @@ const PostComments = ({ comments, users, showAllComments, toggleComments }) => {
                         username: 'Unknown User',
                         avatar: null
                     }}
+                    postId={postId}
                 />
             ))}
 
