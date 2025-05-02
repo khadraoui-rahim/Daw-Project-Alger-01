@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Media App</title>
+    <style>
+        /* Custom animations */
+        @keyframes floatUpAndFade {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+
+            15% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(0);
+            }
+        }
+
+        .animate-float-heart {
+            animation: floatUpAndFade 1s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

@@ -1,21 +1,119 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { ACTIONS } from '../../reducers/globalReducer';
 import rabbitLogo from '../../assets/images/rabbit.png';
 import PostList from '../post/PostList';
+import { posts as latestPosts } from '../../data/posts';
 
 const HomeScreen = () => {
-    const { state, dispatch } = useGlobalContext();
+    const { state, dispatch, resetState } = useGlobalContext();
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(null);
+    const navigate = useNavigate();
+
+    // Merge posts helper function - preserves comments and likes
+    const mergePostsWithLatest = (currentPosts, newPosts) => {
+        // Start with the latest posts as base
+        return newPosts.map(latestPost => {
+            // Find if this post exists in current state
+            const existingPost = currentPosts.find(p => p.id === latestPost.id);
+
+            if (existingPost) {
+                // Use the existing post (with comments and likes) but ensure it has all fields from latest
+                return {
+                    ...latestPost,
+                    comments: existingPost.comments || [],
+                    likes: existingPost.likes || 0,
+                    likedBy: existingPost.likedBy || []
+                };
+            }
+
+            // If post doesn't exist in current state, use the latest one
+            return latestPost;
+        });
+    };
+
+    // Force a refresh of posts from posts.jsx when component mounts
+    // but preserve comments and likes
+    useEffect(() => {
+        const checkForNewPosts = () => {
+            // Get the IDs of current posts
+            const currentPostIds = state.posts.map(post => post.id);
+            // Get the IDs of latest posts
+            const latestPostIds = latestPosts.map(post => post.id);
+
+            // Check if there are any new posts
+            const hasNewPosts = latestPostIds.some(id => !currentPostIds.includes(id));
+
+            // If there are new posts, merge them with existing ones
+            if (hasNewPosts) {
+                const mergedPosts = mergePostsWithLatest(state.posts, latestPosts);
+
+                // Also include user-created posts that might not be in latest
+                state.posts.forEach(existingPost => {
+                    if (!mergedPosts.some(p => p.id === existingPost.id)) {
+                        mergedPosts.push(existingPost);
+                    }
+                });
+
+                // Update localStorage with merged posts
+                localStorage.setItem('socialMediaState', JSON.stringify({
+                    ...state,
+                    posts: mergedPosts
+                }));
+
+                // Refresh page to apply changes without full reload
+                window.location.href = '/home';
+            }
+        };
+
+        checkForNewPosts();
+        // Only run once on component mount
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleLogout = () => {
         dispatch({ type: ACTIONS.LOGOUT });
         setMenuOpen(false);
+        navigate('/');
+    };
+
+    const handleResetOnboarding = () => {
+        // Set onboarding status to false and redirect to root
+        localStorage.removeItem('onboardingComplete');
+        navigate('/');
     };
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
+    };
+
+    const handleHomeRedirect = () => {
+        // Use React Router navigation instead of page reload
+        navigate('/home');
+        setMenuOpen(false);
+    };
+
+    const handleRefreshPosts = () => {
+        // Merge the latest posts with the current posts to preserve comments and likes
+        const mergedPosts = mergePostsWithLatest(state.posts, latestPosts);
+
+        // Also include any existing posts not in the latest data
+        state.posts.forEach(existingPost => {
+            if (!mergedPosts.some(p => p.id === existingPost.id)) {
+                mergedPosts.push(existingPost);
+            }
+        });
+
+        // Update localStorage with merged posts
+        localStorage.setItem('socialMediaState', JSON.stringify({
+            ...state,
+            posts: mergedPosts
+        }));
+
+        // Refresh page to apply changes without full reload
+        window.location.href = '/home';
     };
 
     // Close menu when clicking outside
@@ -33,16 +131,17 @@ const HomeScreen = () => {
     }, [menuRef]);
 
     return (
-        <div className="min-h-screen bg-white">
-            {/* Header */}
-            <header className="bg-white py-3 px-4 border-b relative">
+        <div className="min-h-screen bg-white flex flex-col">
+            {/* Header - Fixed position to stay at top during scrolling */}
+            <header className="bg-white py-3 px-4 border-b sticky top-0 z-10 shadow-sm">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
                     <div className="flex items-center">
                         <img
                             src={rabbitLogo}
                             alt="Rabbit Logo"
-                            className="h-14 w-14 rounded-full object-cover shadow-sm"
+                            className="h-14 w-14 rounded-full object-cover shadow-sm cursor-pointer"
+                            onClick={handleHomeRedirect}
                         />
                     </div>
 
@@ -65,11 +164,38 @@ const HomeScreen = () => {
                         {menuOpen && (
                             <div className="bg-white shadow-md absolute right-4 top-16 w-56 z-10 rounded-lg overflow-hidden border border-gray-100 animate-fadeIn">
                                 <div className="py-1">
-                                    <a href="#" className="block px-6 py-3 text-gray-800 hover:bg-orange-500 hover:text-white border-b border-gray-100">
+                                    <a
+                                        href="#"
+                                        className="block px-6 py-3 text-gray-800 hover:bg-orange-500 hover:text-white border-b border-gray-100"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleHomeRedirect();
+                                        }}
+                                    >
                                         Home
+                                    </a>
+                                    <a
+                                        href="#"
+                                        className="block px-6 py-3 text-gray-800 hover:bg-orange-500 hover:text-white border-b border-gray-100"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleRefreshPosts();
+                                        }}
+                                    >
+                                        Refresh Posts
                                     </a>
                                     <a href="#" className="block px-6 py-3 text-gray-800 hover:bg-orange-500 hover:text-white border-b border-gray-100">
                                         My Account
+                                    </a>
+                                    <a
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleResetOnboarding();
+                                        }}
+                                        className="block px-6 py-3 text-gray-800 hover:bg-orange-500 hover:text-white border-b border-gray-100"
+                                    >
+                                        Show Onboarding
                                     </a>
                                     <a
                                         href="#"
@@ -89,7 +215,7 @@ const HomeScreen = () => {
             </header>
 
             {/* Main content - Posts */}
-            <main className="max-w-screen-sm mx-auto p-4">
+            <main className="max-w-screen-sm mx-auto p-4 flex-grow bg-white">
                 <PostList />
             </main>
         </div>

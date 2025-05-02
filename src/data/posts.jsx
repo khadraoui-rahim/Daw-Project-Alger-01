@@ -14,6 +14,16 @@ export const posts = [
     },
     {
         id: 2,
+        userId: 101,
+        image: 'https://picsum.photos/id/250/1200/1200',
+        caption: 'Hello world',
+        likes: 3,
+        likedBy: [102, 103, 105],
+        comments: [],
+        timestamp: '2025-04-28T14:00:00Z'
+    },
+    {
+        id: 3,
         userId: 102,
         image: 'https://picsum.photos/id/14/1200/1200',
         caption: 'At the beach 🏖️',
@@ -26,7 +36,7 @@ export const posts = [
         timestamp: '2025-04-26T12:00:00Z'
     },
     {
-        id: 3,
+        id: 4,
         userId: 103,
         image: 'https://picsum.photos/id/239/1200/1200',
         caption: 'Mountain view 🌄',
@@ -41,7 +51,7 @@ export const posts = [
         timestamp: '2025-04-26T10:00:00Z'
     },
     {
-        id: 4,
+        id: 5,
         userId: 104,
         image: 'https://picsum.photos/id/240/1200/1200',
         caption: 'Cityscape 🌃',
@@ -54,7 +64,7 @@ export const posts = [
         timestamp: '2025-04-26T08:00:00Z'
     },
     {
-        id: 5,
+        id: 6,
         userId: 105,
         image: 'https://picsum.photos/id/241/1200/1200',
         caption: 'Nature walk 🌿',

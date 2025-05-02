@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { globalReducer, initialState } from '../reducers/globalReducer';
+import { posts as latestPosts } from '../data/posts';
 
 // Create Context
 const GlobalContext = createContext();
@@ -11,7 +12,40 @@ export const GlobalProvider = ({ children }) => {
         const savedState = localStorage.getItem('socialMediaState');
         if (savedState) {
             try {
-                return JSON.parse(savedState);
+                const parsedState = JSON.parse(savedState);
+
+                // Merge the saved posts with the latest posts
+                // This preserves comments and likes while ensuring all posts exist
+                const mergedPosts = latestPosts.map(latestPost => {
+                    // Find if this post exists in saved state
+                    const savedPost = parsedState.posts.find(p => p.id === latestPost.id);
+
+                    if (savedPost) {
+                        // Use the saved post (with comments and likes) but ensure it has all fields from latest
+                        return {
+                            ...latestPost,
+                            comments: savedPost.comments || [],
+                            likes: savedPost.likes || 0,
+                            likedBy: savedPost.likedBy || []
+                        };
+                    }
+
+                    // If post doesn't exist in saved state, use the latest one
+                    return latestPost;
+                });
+
+                // Also include any posts that might be in saved state but not in latest posts
+                // (like user-created posts)
+                parsedState.posts.forEach(savedPost => {
+                    if (!mergedPosts.some(p => p.id === savedPost.id)) {
+                        mergedPosts.push(savedPost);
+                    }
+                });
+
+                return {
+                    ...parsedState,
+                    posts: mergedPosts,
+                };
             } catch (e) {
                 console.error('Error parsing saved state:', e);
                 return initialState;

@@ -41,7 +41,7 @@ const AddComment = ({ postId, onCommentAdded }) => {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Add a comment..."
-                className="flex-1 border rounded-full px-4 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500"
+                className="flex-1 border rounded-full px-4 py-1 text-sm text-black focus:outline-none focus:ring-1 focus:ring-orange-500"
                 required
             />
             <button
