@@ -6,6 +6,20 @@ const AddComment = ({ postId, onCommentAdded }) => {
     const [comment, setComment] = useState('');
     const { state, dispatch } = useGlobalContext();
 
+    // Check if avatar is a relative path and return placeholder if it is
+    const getValidAvatarUrl = (avatarUrl) => {
+        if (!avatarUrl) return null;
+
+        // Check if it's a relative path that starts with 'src/' or './'
+        if (avatarUrl.startsWith('src/') || avatarUrl.startsWith('./')) {
+            // Return a placeholder image URL 
+            return 'https://via.placeholder.com/150';
+        }
+
+        // Otherwise return the original URL
+        return avatarUrl;
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -32,7 +46,7 @@ const AddComment = ({ postId, onCommentAdded }) => {
     return (
         <form onSubmit={handleSubmit} className="flex items-center mt-3 pb-2">
             <img
-                src={state.currentUser?.avatar || 'https://via.placeholder.com/30'}
+                src={getValidAvatarUrl(state.currentUser?.avatar) || 'https://via.placeholder.com/30'}
                 alt="Profile"
                 className="w-8 h-8 rounded-full mr-2"
             />

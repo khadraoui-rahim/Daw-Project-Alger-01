@@ -8,6 +8,20 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    // Check if avatar is a relative path and return placeholder if it is
+    const getValidAvatarUrl = (avatarUrl) => {
+        if (!avatarUrl) return 'https://via.placeholder.com/150';
+
+        // Check if it's a relative path that starts with 'src/' or './'
+        if (avatarUrl.startsWith('src/') || avatarUrl.startsWith('./')) {
+            // Return a placeholder image URL 
+            return 'https://via.placeholder.com/150';
+        }
+
+        // Otherwise return the original URL
+        return avatarUrl;
+    };
+
     const handleLogin = (e) => {
         e.preventDefault();
         const user = state.users.find(
@@ -30,7 +44,7 @@ const Login = () => {
         return (
             <div className="flex items-center">
                 <img
-                    src={state.currentUser.avatar}
+                    src={getValidAvatarUrl(state.currentUser.avatar)}
                     alt="User avatar"
                     className="w-8 h-8 rounded-full mr-2"
                 />

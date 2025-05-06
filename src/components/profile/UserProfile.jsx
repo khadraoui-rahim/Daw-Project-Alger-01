@@ -14,6 +14,20 @@ const UserProfile = () => {
         return <div>No user logged in</div>;
     }
 
+    // Check if avatar is a relative path and return placeholder if it is
+    const getValidAvatarUrl = (avatarUrl) => {
+        if (!avatarUrl) return 'https://via.placeholder.com/150';
+
+        // Check if it's a relative path that starts with 'src/' or './'
+        if (avatarUrl.startsWith('src/') || avatarUrl.startsWith('./')) {
+            // Return a placeholder image URL 
+            return 'https://via.placeholder.com/150';
+        }
+
+        // Otherwise return the original URL
+        return avatarUrl;
+    };
+
     // Count user posts
     const userPosts = state.posts.filter(post => post.userId === user.id);
 
@@ -61,7 +75,7 @@ const UserProfile = () => {
                 <div className="bg-white rounded-lg shadow-md p-6 -mt-3">
                     <div className="flex items-center mb-6">
                         <img
-                            src={user.avatar}
+                            src={getValidAvatarUrl(user.avatar)}
                             alt={user.username}
                             className="w-24 h-24 rounded-full object-cover mr-6"
                         />

@@ -27,11 +27,25 @@ const UserHeading = ({ user, date, size = "medium" }) => {
         large: "text-lg",
     };
 
+    // Check if avatar is a relative path and return placeholder if it is
+    const getValidAvatarUrl = (avatarUrl) => {
+        if (!avatarUrl) return null;
+
+        // Check if it's a relative path that starts with 'src/' or './'
+        if (avatarUrl.startsWith('src/') || avatarUrl.startsWith('./')) {
+            // Return a placeholder image URL 
+            return 'https://via.placeholder.com/150';
+        }
+
+        // Otherwise return the original URL
+        return avatarUrl;
+    };
+
     return (
         <div className="flex items-center mb-2">
             <div className={`${avatarSizes[size]} rounded-full border border-black overflow-hidden shadow-md bg-gray-200 flex-shrink-0`}>
                 {user.avatar ? (
-                    <img src={user.avatar} alt={user.username} className="w-full h-full object-cover" />
+                    <img src={getValidAvatarUrl(user.avatar)} alt={user.username} className="w-full h-full object-cover" />
                 ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gray-300">
                         <span className="font-bold text-gray-600">{(user.username || 'U').charAt(0).toUpperCase()}</span>

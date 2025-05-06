@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { globalReducer, initialState } from '../reducers/globalReducer';
 import { posts as latestPosts } from '../data/posts';
+import { users as latestUsers } from '../data/users';
 
 // Create Context
 const GlobalContext = createContext();
@@ -42,9 +43,39 @@ export const GlobalProvider = ({ children }) => {
                     }
                 });
 
+                // Update user avatars from latest user data to ensure correct URLs
+                const mergedUsers = parsedState.users.map(savedUser => {
+                    // Find the corresponding user in latest data
+                    const latestUser = latestUsers.find(u => u.id === savedUser.id);
+
+                    if (latestUser) {
+                        // Keep user data but update the avatar URL
+                        return {
+                            ...savedUser,
+                            avatar: latestUser.avatar
+                        };
+                    }
+
+                    return savedUser;
+                });
+
+                // Also update currentUser avatar if it exists
+                let updatedCurrentUser = parsedState.currentUser;
+                if (updatedCurrentUser) {
+                    const latestUser = latestUsers.find(u => u.id === updatedCurrentUser.id);
+                    if (latestUser) {
+                        updatedCurrentUser = {
+                            ...updatedCurrentUser,
+                            avatar: latestUser.avatar
+                        };
+                    }
+                }
+
                 return {
                     ...parsedState,
                     posts: mergedPosts,
+                    users: mergedUsers,
+                    currentUser: updatedCurrentUser
                 };
             } catch (e) {
                 console.error('Error parsing saved state:', e);
