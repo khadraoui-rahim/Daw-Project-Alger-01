@@ -45,7 +45,9 @@ const UserProfile = () => {
             </ProfileHeader>
             <ProfileUserInfo user={user} />
             <div className="px-6">
-                <ProfilePostList posts={userPosts} />
+                <div className="profile-posts-container">
+                    <ProfilePostList posts={userPosts} />
+                </div>
             </div>
             {/* Delete confirmation modal */}
             {showDeleteConfirm && (

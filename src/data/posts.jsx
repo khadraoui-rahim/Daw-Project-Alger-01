@@ -3,7 +3,7 @@ export const posts = [
         id: 1,
         userId: 101, // link to a user
         image: 'https://picsum.photos/id/237/1200/1200', // or your own images
-        caption: 'Sunset vibes 🌅',
+        caption: 'My New dog!!! 🌅',
         likes: 4,
         likedBy: [101, 102, 103, 105], // IDs of users who liked the post
         comments: [

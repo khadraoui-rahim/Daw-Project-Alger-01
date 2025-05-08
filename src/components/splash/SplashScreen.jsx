@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import backgroundImage from '../../assets/images/background.jpg'
 import rabbitLogo from '../../assets/images/rabbit.png'
 import './SplashScreen.css'
+
+const PC_BACKGROUND = 'https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 const SplashScreen = ({ onSplashComplete }) => {
     const [fadeOut, setFadeOut] = useState(false);
@@ -26,14 +27,8 @@ const SplashScreen = ({ onSplashComplete }) => {
     return (
         <div className={`splash-screen w-full h-screen relative overflow-hidden ${fadeOut ? 'fade-out' : ''}`}>
             {/* Background image with orange overlay */}
-            <div className="absolute inset-0">
-                <img
-                    src={backgroundImage}
-                    alt="Background"
-                    className="w-full h-full object-cover object-left-top"
-                />
-                <div className="absolute inset-0 bg-orange-500 opacity-25"></div>
-            </div>
+            <div className="splash-bg absolute inset-0" />
+            <div className="absolute inset-0 bg-orange-500 opacity-25 pointer-events-none" />
 
             {/* Logo in the middle */}
             <div className="absolute inset-0 flex items-center justify-center">
