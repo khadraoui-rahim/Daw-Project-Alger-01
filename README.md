@@ -33,6 +33,18 @@ A modern, responsive social media application featuring clean design, real-time 
   - Optimized layouts for each screen size
   - Smooth animations and transitions
 
+## 📱 App Screenshots
+
+<div align="center">
+  <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+    <img src="https://res.cloudinary.com/dirvscsev/image/upload/v1746669815/readme2_ra7bo9.png" alt="Login Screen" width="200"/>
+    <img src="https://res.cloudinary.com/dirvscsev/image/upload/v1746669817/readme5_xoz8bn.png" alt="Create Post Screen" width="200"/>
+    <img src="https://res.cloudinary.com/dirvscsev/image/upload/v1746669816/readme4_kanmx4.png" alt="Profile Page" width="200"/>
+    <img src="https://res.cloudinary.com/dirvscsev/image/upload/v1746669817/readme3_aruilj.png" alt="Home Feed" width="200"/>
+    <img src="https://res.cloudinary.com/dirvscsev/image/upload/v1746669826/readme1_udzcwg.pnghttps://res.cloudinary.com/dirvscsev/image/upload/v1746669826/readme1_udzcwg.png" alt="Splash Screen" width="200"/>
+  </div>
+</div>
+
 ## 🛠️ Tech Stack
 
 - **React** (v19) - Modern UI library
