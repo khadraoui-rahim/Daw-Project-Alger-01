@@ -21,8 +21,9 @@ const AddPostForm = ({ onBack }) => {
         }
 
         // Create new post object
+        const newId = Math.max(0, ...state.posts.map(p => Number(p.id) || 0)) + 1;
         const newPost = {
-            id: Date.now(), // Use timestamp as a simple unique ID
+            id: newId,
             userId: state.currentUser.id,
             image: imageUrl,
             caption: caption,

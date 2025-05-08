@@ -12,6 +12,7 @@ export const ACTIONS = {
     REGISTER_USER: 'REGISTER_USER',
     DELETE_USER: 'DELETE_USER',
     DELETE_COMMENT: 'DELETE_COMMENT',
+    DELETE_POST: 'DELETE_POST',
 };
 
 // Initial State
@@ -166,6 +167,12 @@ export const globalReducer = (state, action) => {
                         }
                         : post
                 )
+            };
+
+        case ACTIONS.DELETE_POST:
+            return {
+                ...state,
+                posts: state.posts.filter(post => post.id !== action.payload),
             };
 
         default:

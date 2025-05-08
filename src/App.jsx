@@ -11,6 +11,7 @@ import { GlobalProvider } from './context/GlobalContext'
 import { useGlobalContext } from './context/GlobalContext'
 import PersistenceStatus from './components/common/PersistenceStatus'
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
+import SinglePostPage from './components/post/SinglePostPage'
 
 // Protected route component to handle authentication
 const ProtectedRoute = ({ children }) => {
@@ -169,6 +170,15 @@ const AppContent = () => {
           element={
             <ProtectedRoute>
               <AddPostForm onBack={() => navigate('/home')} />
+              <PersistenceStatus />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/post/:id"
+          element={
+            <ProtectedRoute>
+              <SinglePostPage />
               <PersistenceStatus />
             </ProtectedRoute>
           }

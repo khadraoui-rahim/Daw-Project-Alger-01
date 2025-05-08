@@ -7,13 +7,15 @@ import PostCaption from './PostCaption';
 import LikeCommentBar from './LikeCommentBar';
 import PostComments from './PostComments';
 import AddComment from './AddComment';
+import { useNavigate } from 'react-router-dom';
 
-const Post = ({ post }) => {
+const Post = ({ post, showViewButton }) => {
     const { state, dispatch } = useGlobalContext();
     const [showAllComments, setShowAllComments] = useState(false);
     const [showAddComment, setShowAddComment] = useState(false);
     const [loaded, setLoaded] = useState(false);
     const [animated, setAnimated] = useState(false);
+    const navigate = useNavigate();
 
     // Set loaded to true after component mounts to trigger animations
     useEffect(() => {
@@ -85,9 +87,19 @@ const Post = ({ post }) => {
     return (
         <div className={`bg-gray-100 rounded-lg overflow-hidden shadow-sm mb-5 ${animationClass}`}>
             <div className={`p-4 bg-white transition-opacity duration-500 ${loaded ? 'opacity-100 delay-100' : 'opacity-0'}`}>
-                {/* User info who posted */}
-                <UserHeading user={postUser} date={formattedDate} />
-
+                {/* User info and View button inline */}
+                <div className="flex items-center justify-between">
+                    <UserHeading user={postUser} date={formattedDate} />
+                    {showViewButton && (
+                        <button
+                            onClick={() => navigate(`/post/${post.id}`)}
+                            className="ml-2 px-3 py-1 bg-orange-500 text-white text-xs rounded-full shadow hover:bg-orange-600 focus:outline-none"
+                            aria-label="View Post"
+                        >
+                            View
+                        </button>
+                    )}
+                </div>
                 {/* Post caption */}
                 <PostCaption caption={post.caption} />
             </div>

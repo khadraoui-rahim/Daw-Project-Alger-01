@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserHeading = ({ user, date, size = "medium" }) => {
+const UserHeading = ({ user, date, size = "medium", hideDate = false, noMargin = false, center = false }) => {
     // Fallback if user is undefined or null
     if (!user) {
         user = {
@@ -42,7 +42,7 @@ const UserHeading = ({ user, date, size = "medium" }) => {
     };
 
     return (
-        <div className="flex items-center mb-2">
+        <div className={`flex ${center ? 'flex-col' : ''} items-center ${noMargin ? '' : 'mb-2'}`}>
             <div className={`${avatarSizes[size]} rounded-full border border-black overflow-hidden shadow-md bg-gray-200 flex-shrink-0`}>
                 {user.avatar ? (
                     <img src={getValidAvatarUrl(user.avatar)} alt={user.username} className="w-full h-full object-cover" />
@@ -52,9 +52,9 @@ const UserHeading = ({ user, date, size = "medium" }) => {
                     </div>
                 )}
             </div>
-            <div className="ml-3 text-left">
+            <div className={`${center ? 'mt-2 text-center' : 'ml-3 text-left'}`}>
                 <h4 className={`font-bold ${nameSizes[size]} text-black uppercase`}>{user.username || 'Unknown User'}</h4>
-                {date && <p className={`${textSizes[size]} text-gray-500`}>{date}</p>}
+                {date && !hideDate && <p className={`${textSizes[size]} text-gray-500`}>{date}</p>}
             </div>
         </div>
     );

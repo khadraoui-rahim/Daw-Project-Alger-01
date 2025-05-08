@@ -148,7 +148,7 @@ const PostList = () => {
                     className={`transition-opacity duration-300 ease-in-out`}
                     style={{ animationDelay: `${index * 100}ms` }}
                 >
-                    <Post post={post} />
+                    <Post post={post} showViewButton={true} />
                 </div>
             ))}
 

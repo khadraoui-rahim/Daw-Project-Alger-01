@@ -5,6 +5,7 @@ import { ACTIONS } from '../../reducers/globalReducer';
 import rabbitLogo from '../../assets/images/rabbit.png';
 import PostList from '../post/PostList';
 import { posts as latestPosts } from '../../data/posts';
+import UserHeading from '../post/UserHeading';
 
 const HomeScreen = () => {
     const { state, dispatch, resetState } = useGlobalContext();
@@ -136,7 +137,7 @@ const HomeScreen = () => {
             <header className="bg-white py-3 px-4 border-b sticky top-0 z-10 shadow-sm">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
-                    <div className="flex items-center">
+                    <div className="flex items-center flex-1">
                         <img
                             src={rabbitLogo}
                             alt="Rabbit Logo"
@@ -145,8 +146,24 @@ const HomeScreen = () => {
                         />
                     </div>
 
+                    {/* User Profile in Center */}
+                    <div
+                        className="flex flex-col items-center justify-center cursor-pointer flex-1"
+                        onClick={() => navigate('/profile')}
+                    >
+                        {state.currentUser && (
+                            <UserHeading
+                                user={state.currentUser}
+                                size="medium"
+                                hideDate={true}
+                                noMargin={true}
+                                center={true}
+                            />
+                        )}
+                    </div>
+
                     {/* Sandwich Menu Button */}
-                    <div ref={menuRef}>
+                    <div ref={menuRef} className="flex-1 flex justify-end">
                         <button
                             onClick={toggleMenu}
                             className="p-2 focus:outline-none bg-transparent"
