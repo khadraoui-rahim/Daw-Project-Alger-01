@@ -1,30 +1,105 @@
-# Social Media App
+# 🐰 Rabbit Social Media App
 
-A modern social media application built with React, Vite, and TailwindCSS.
+A modern, responsive social media application featuring clean design, real-time interactions, and a seamless user experience across desktop and mobile devices.
 
-## Features
+![Rabbit Social Media](https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-- User authentication (login/signup)
-- Create and view posts
-- Like and comment on posts
-- User profiles
-- Delete user accounts
-- Responsive design
+## 🌟 Features
 
-## Tech Stack
+- **Beautiful Onboarding Experience**
+  - Engaging splash screen and multi-step introduction
+  - Responsive design that works on both mobile and desktop
 
-- React 19
-- Vite
-- TailwindCSS
-- React Router
+- **User Authentication**
+  - Quick and easy signup and login
+  - User profiles with avatars
+  - Secure account management
 
-## Development
+- **Social Feed**
+  - Post images with captions
+  - Like and comment functionality
+  - Real-time updates
+
+- **Profile Management**
+  - View your own posts in a grid layout
+  - Edit or delete your posts
+  - Delete account option with confirmation
+
+- **Single Post View**
+  - Dedicated view for individual posts
+  - Comment threads 
+  - Like counter and user engagement tools
+
+- **Responsive UI**
+  - Works seamlessly on mobile, tablet, and desktop
+  - Optimized layouts for each screen size
+  - Smooth animations and transitions
+
+## 🛠️ Tech Stack
+
+- **React** (v19) - Modern UI library
+- **Vite** - Fast build tool and development server
+- **TailwindCSS** - Utility-first CSS framework
+- **React Router** - Routing and navigation
+- **Context API + Reducers** - State management solution
+
+## 🏃‍♂️ Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm or yarn
+
+### Installation
 
 1. Clone the repository
-2. Install dependencies: `npm install`
-3. Start development server: `npm run dev`
+   ```bash
+   git clone https://github.com/username/rabbit-social-media.git
+   cd rabbit-social-media
+   ```
 
-## Deployment
+2. Install dependencies
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
+
+3. Start the development server
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open your browser to the local development URL (typically http://localhost:5173)
+
+## 📁 Project Structure
+
+```
+rabbit-social-media/
+├── public/              # Static assets served as-is
+├── src/
+│   ├── assets/          # Images, fonts, and other static assets
+│   │   ├── common/      # Shared UI components
+│   │   ├── home/        # Home screen components
+│   │   ├── login/       # Authentication components
+│   │   ├── onboarding/  # Onboarding experience
+│   │   ├── post/        # Post-related components
+│   │   ├── profile/     # User profile components
+│   │   └── splash/      # Splash screen
+│   ├── context/         # React contexts for state management
+│   ├── data/            # Mock data and initial state
+│   ├── reducers/        # State reducers for the app
+│   ├── styles/          # Global styles and CSS
+│   ├── App.jsx          # Main application component
+│   └── main.jsx         # Application entry point
+├── index.html           # HTML entry point
+├── package.json         # Dependencies and scripts
+└── vite.config.js       # Vite configuration
+```
+
+## 🚀 Deployment
 
 ### Deploy to Vercel
 
@@ -43,15 +118,20 @@ vercel login
 vercel
 ```
 
-## Project Structure
+## 📱 Responsive Design
 
-- `/src` - Application source code
-  - `/components` - React components
-  - `/context` - Global context and state management
-  - `/data` - Mock data for the application
-  - `/reducers` - Global reducers
-  - `/assets` - Static assets like images
+- **Mobile First**: Optimized for phone displays with intuitive touch interactions
+- **Tablet**: Enhanced layouts for medium-sized screens
+- **Desktop**: Full-featured experience with optimized layouts for larger screens
 
-## License
+## 🤝 Contributing
 
-MIT
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+Made with ❤️ by the Rabbit Team
