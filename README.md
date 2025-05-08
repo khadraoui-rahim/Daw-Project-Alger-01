@@ -2,8 +2,6 @@
 
 A modern, responsive social media application featuring clean design, real-time interactions, and a seamless user experience across desktop and mobile devices.
 
-![Rabbit Social Media](https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-
 ## 🌟 Features
 
 - **Beautiful Onboarding Experience**
@@ -128,10 +126,4 @@ vercel
 
 Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-Made with ❤️ by the Rabbit Team
+Made by (Khadraoui Abderrahim as a college project)
