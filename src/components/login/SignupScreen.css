@@ -1,0 +1,207 @@
+/* Signup Screen - Matching Onboarding Design */
+.signup-split-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #fff5f0 0%, #ffe8dc 100%);
+    position: relative;
+}
+
+.signup-left-panel {
+    position: relative;
+    width: 90%;
+    max-width: 520px;
+    max-height: 95vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 3rem;
+    box-shadow: 0 20px 60px 0 rgba(249, 115, 22, 0.15), 
+                0 8px 24px 0 rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 2.5rem;
+    z-index: 2;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Custom scrollbar for signup panel */
+.signup-left-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.signup-left-panel::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.signup-left-panel::-webkit-scrollbar-thumb {
+    background: #f97316;
+    border-radius: 10px;
+}
+
+.signup-left-panel::-webkit-scrollbar-thumb:hover {
+    background: #ea580c;
+}
+
+.signup-logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.signup-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 4px 20px 0 rgba(249, 115, 22, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.signup-logo:hover {
+    transform: scale(1.05);
+}
+
+.signup-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    line-height: 1.3;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.signup-subtitle {
+    font-size: 0.95rem;
+    color: #6b7280;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.login-link p {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.login-text {
+    color: #f97316;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.login-text:hover {
+    color: #ea580c;
+    text-decoration: underline;
+}
+
+.signup-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+    padding: 1.125rem 2rem;
+    border-radius: 1.5rem;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1.05rem;
+    box-shadow: 0 8px 24px 0 rgba(249, 115, 22, 0.25);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.signup-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px 0 rgba(249, 115, 22, 0.35);
+}
+
+.signup-button:active {
+    transform: translateY(0);
+}
+
+.signup-right-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    z-index: 0;
+    filter: blur(2px);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .signup-left-panel {
+        width: 95%;
+        padding: 2.5rem 2rem;
+        border-radius: 2rem;
+        max-height: 90vh;
+    }
+
+    .signup-title {
+        font-size: 1.75rem;
+    }
+
+    .back-button {
+        top: 1.5rem;
+        left: 1.5rem;
+    }
+
+    .signup-button {
+        font-size: 1rem;
+        padding: 1rem 1.5rem;
+    }
+
+    .signup-form {
+        gap: 0.75rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .signup-left-panel {
+        width: 90%;
+        padding: 2rem 1.5rem;
+    }
+
+    .signup-title {
+        font-size: 1.5rem;
+    }
+
+    .signup-subtitle {
+        font-size: 0.875rem;
+    }
+
+    .input-wrapper {
+        padding: 0.75rem 1rem;
+    }
+
+    .input-field {
+        font-size: 0.9rem;
+    }
+}

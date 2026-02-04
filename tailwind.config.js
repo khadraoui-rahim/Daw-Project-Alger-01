@@ -8,6 +8,7 @@ export default {
         extend: {
             fontFamily: {
                 'inter': ['Inter', 'sans-serif'],
+                'poppins': ['Poppins', 'sans-serif'],
             },
             animation: {
                 fadeIn: 'fadeIn 0.2s ease-in-out',

@@ -29,19 +29,19 @@ const OnboardingScreen = ({ onNext, onSkip, currentPage = 0 }) => {
             {/* Left: Content */}
             <div className="onboarding-left-panel">
                 <div className="skip-button">
-                    <span className="skip-text" onClick={onSkip}>Skip</span>
+                    <span className="skip-text font-poppins" onClick={onSkip}>Skip</span>
                 </div>
                 <div className="onboarding-logo-wrapper">
                     <img src={rabbitLogo} alt="Rabbit Logo" className="onboarding-logo" />
                 </div>
-                <h1 className="onboarding-title font-inter">{currentContent.title}</h1>
+                <h1 className="onboarding-title font-poppins">{currentContent.title}</h1>
                 <div className="pagination-dots">
                     <div className={`dot ${currentPage === 0 ? 'active' : ''}`}></div>
                     <div className={`dot ${currentPage === 1 ? 'active' : ''}`}></div>
                     <div className={`dot ${currentPage === 2 ? 'active' : ''}`}></div>
                 </div>
                 <div className="button-container">
-                    <button className="next-button" onClick={onNext}>
+                    <button className="next-button font-poppins" onClick={onNext}>
                         <span>Next</span>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />

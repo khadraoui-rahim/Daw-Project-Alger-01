@@ -3,14 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { ACTIONS } from '../../reducers/globalReducer';
 import rabbitLogo from '../../assets/images/rabbit.png';
-import PostList from '../post/PostList';
+import Post from '../post/Post';
 import { posts as latestPosts } from '../../data/posts';
 import UserHeading from '../post/UserHeading';
+import './HomeScreen.css';
 
 const HomeScreen = () => {
     const { state, dispatch, resetState } = useGlobalContext();
     const [menuOpen, setMenuOpen] = useState(false);
+    const [selectedPostId, setSelectedPostId] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [hoveredPostId, setHoveredPostId] = useState(null);
     const menuRef = useRef(null);
+    const modalRef = useRef(null);
     const navigate = useNavigate();
 
     // Merge posts helper function - preserves comments and likes
@@ -34,6 +39,30 @@ const HomeScreen = () => {
             return latestPost;
         });
     };
+
+    // Get sorted posts
+    const getSortedPosts = () => {
+        if (!state || !state.posts || !Array.isArray(state.posts) || state.posts.length === 0) {
+            return [];
+        }
+        return [...state.posts].sort((a, b) => {
+            if (!a.timestamp) return 1;
+            if (!b.timestamp) return -1;
+            return new Date(b.timestamp) - new Date(a.timestamp);
+        });
+    };
+
+    const sortedPosts = getSortedPosts();
+
+    // Set initial selected post to the first post
+    useEffect(() => {
+        if (sortedPosts.length > 0 && !selectedPostId) {
+            setSelectedPostId(sortedPosts[0].id);
+        }
+    }, [sortedPosts.length]);
+
+    // Get the selected post object for modal
+    const selectedPost = sortedPosts.find(post => post.id === selectedPostId);
 
     // Force a refresh of posts from posts.jsx when component mounts
     // but preserve comments and likes
@@ -117,6 +146,18 @@ const HomeScreen = () => {
         window.location.href = '/home';
     };
 
+    // Handle post click to open modal
+    const handlePostClick = (postId) => {
+        setSelectedPostId(postId);
+        setShowModal(true);
+    };
+
+    // Close modal
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedPostId(null);
+    };
+
     // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -130,6 +171,34 @@ const HomeScreen = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [menuRef]);
+
+    // Close modal when clicking outside
+    useEffect(() => {
+        const handleModalClickOutside = (event) => {
+            if (showModal && modalRef.current && !modalRef.current.contains(event.target)) {
+                handleCloseModal();
+            }
+        };
+
+        document.addEventListener('mousedown', handleModalClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleModalClickOutside);
+        };
+    }, [showModal]);
+
+    // Close modal on Escape key
+    useEffect(() => {
+        const handleEscape = (event) => {
+            if (event.key === 'Escape' && showModal) {
+                handleCloseModal();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+        return () => {
+            document.removeEventListener('keydown', handleEscape);
+        };
+    }, [showModal]);
 
     return (
         <div className="min-h-screen bg-white flex flex-col">
@@ -250,10 +319,93 @@ const HomeScreen = () => {
                 </div>
             </header>
 
-            {/* Main content - Posts */}
-            <main className="max-w-screen-sm mx-auto p-4 flex-grow bg-white">
-                <PostList />
+            {/* Main content - Grid Only Layout */}
+            <main className="home-grid-layout flex-grow">
+                <div className="posts-grid-container">
+                    {sortedPosts.length === 0 ? (
+                        <div className="no-posts-message">
+                            <p className="text-gray-500 text-xl">No posts available</p>
+                        </div>
+                    ) : (
+                        <div className="posts-grid">
+                            {sortedPosts.map((post) => {
+                                const postUser = state.users.find(user => user.id === post.userId) || {
+                                    username: 'Unknown User',
+                                    avatar: null
+                                };
+                                const isHovered = hoveredPostId === post.id;
+                                
+                                return (
+                                    <div
+                                        key={post.id}
+                                        className="grid-post-item"
+                                        onClick={() => handlePostClick(post.id)}
+                                        onMouseEnter={() => setHoveredPostId(post.id)}
+                                        onMouseLeave={() => setHoveredPostId(null)}
+                                    >
+                                        <img
+                                            src={post.image}
+                                            alt={post.caption || 'Post image'}
+                                            className="grid-post-image"
+                                        />
+                                        
+                                        {/* User Avatar and Name in Center - Shows when NOT hovered */}
+                                        <div className={`grid-user-info ${isHovered ? 'hidden' : ''}`}>
+                                            <img
+                                                src={postUser.avatar || rabbitLogo}
+                                                alt={postUser.username}
+                                                className="avatar-image"
+                                            />
+                                            <p className="username-text">{postUser.username}</p>
+                                        </div>
+                                        
+                                        {/* Overlay with post info - Shows on hover */}
+                                        <div className={`grid-post-overlay ${isHovered ? 'visible' : ''}`}>
+                                            <div className="overlay-stats">
+                                                <div className="stat-item">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="stat-icon" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                                    </svg>
+                                                    <span>{post.likes || 0}</span>
+                                                </div>
+                                                <div className="stat-item">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="stat-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                                    </svg>
+                                                    <span>{post.comments?.length || 0}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
             </main>
+
+            {/* Modal for Post Details */}
+            {showModal && selectedPost && (
+                <div className="modal-overlay">
+                    <div className="modal-container" ref={modalRef}>
+                        {/* Close button */}
+                        <button
+                            onClick={handleCloseModal}
+                            className="modal-close-button"
+                            aria-label="Close modal"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                        
+                        {/* Post content */}
+                        <div className="modal-content">
+                            <Post post={selectedPost} showViewButton={false} />
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Floating Action Button for creating a new post */}
             <div className="fixed right-6 bottom-6">
