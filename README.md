@@ -41,7 +41,7 @@ A modern, responsive social media application featuring clean design, real-time 
     <img src="https://res.cloudinary.com/dirvscsev/image/upload/v1746669817/readme5_xoz8bn.png" alt="Create Post Screen" width="200"/>
     <img src="https://res.cloudinary.com/dirvscsev/image/upload/v1746669816/readme4_kanmx4.png" alt="Profile Page" width="200"/>
     <img src="https://res.cloudinary.com/dirvscsev/image/upload/v1746669817/readme3_aruilj.png" alt="Home Feed" width="200"/>
-    <img src="https://res.cloudinary.com/dirvscsev/image/upload/v1746669826/readme1_udzcwg.png" alt="Splash Screen" width="200"/>
+    <img src="https://res.cloudinary.com/dirvscsev/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1746669826/readme1_udzcwg.png" alt="Splash Screen" width="1200"/>
   </div>
 </div>
 
